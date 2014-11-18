@@ -1,3 +1,7 @@
 import os
 env = Environment(tools = ['mingw'])
-env.Program('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
+# env.Library('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
+# env.StaticLibrary('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
+env.SharedLibrary('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
+# env.Program('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
+

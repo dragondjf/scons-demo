@@ -1,0 +1,11 @@
+import os
+env = Environment(tools = ['mingw'])
+srcfiles = Glob('*.c')
+srcfiles.remove(File('luac.c'))
+luafils = srcfiles
+env.Program("lua", luafils)
+
+srcfiles = Glob('*.c')
+srcfiles.remove(File('lua.c'))
+luacfiles = srcfiles
+env.Program("luac", luacfiles)

@@ -1,0 +1,6 @@
+env = Environment()
+conf = Configure(env)
+if not conf.CheckLib('m'):
+    print 'Did not find libm.a or m.lib, exiting!'
+    Exit(1)
+env = conf.Finish()
