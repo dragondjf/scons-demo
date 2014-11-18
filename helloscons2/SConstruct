@@ -1,7 +1,10 @@
 import os
-env = Environment(tools = ['mingw'])
+import sys
+if sys.platform == "win32":
+    env = Environment(tools = ['mingw'])
+elif sys.platform == "linux2":
+    env = Environment()
 # env.Library('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
 # env.StaticLibrary('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
-env.SharedLibrary('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
-# env.Program('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
-
+# env.SharedLibrary('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'])
+env.Program('helloscons2', ['helloscons2.c', 'file1.c', 'file2.c'], LIBS = 'm', LIBPATH = ['/usr/lib', '/usr/local/lib'])

@@ -1,3 +1,7 @@
 import os
-env = Environment(tools = ['mingw'])
+import sys
+if sys.platform == "win32":
+    env = Environment(tools = ['mingw'])
+elif sys.platform == "linux2":
+    env = Environment()
 env.Program('11', 'helloscons.c')

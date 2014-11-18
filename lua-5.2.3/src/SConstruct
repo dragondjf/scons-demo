@@ -1,9 +1,15 @@
 import os
-env = Environment(tools = ['mingw'])
-srcfiles = Glob('*.c')
-srcfiles.remove(File('luac.c'))
-luafils = srcfiles
-env.Program("lua", luafils)
+import sys
+
+if sys.platform == "win32":
+    env = Environment(tools = ['mingw'])
+elif sys.platform == "linux2":
+    env = Environment()
+
+# srcfiles = Glob('*.c')
+# srcfiles.remove(File('luac.c'))
+# luafils = srcfiles
+# env.Program("lua", luafils)
 
 srcfiles = Glob('*.c')
 srcfiles.remove(File('lua.c'))
