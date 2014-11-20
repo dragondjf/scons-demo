@@ -19,31 +19,49 @@ MYLDFLAGS=
 MYLIBS=
 MYOBJS=
 
+
+# 定义第三方库的路径
 INCLUDE = -I"include"
 
+# 定义程序输出可执行文件名称
 output = hello
 
-src := $(wildcard *.c) $(wildcard ./include/*.c)
-dir := $(notdir $(src))
-objs := $(patsubst %.c,%.o,$(src) )
 
-depends := $(patsubst %.c,%.d,$(src))
+# 获取项目所有.h头文件的路径列表
+headers := $(wildcard *.h) $(wildcard ./include/*.h)
 
-all = ${objs}
+# 获取项目所有.c源文件的路径列表
+sources := $(wildcard *.c) $(wildcard ./include/*.c)
 
-source:
-	@echo "${src}"
+# 获取项目所有.c源文件的目录列表
+dir := $(notdir $(sources))
 
-sourced:${depends}
+# 所有.c文件生成的.o文件的o文件列表
+objs := $(patsubst %.c, %.o, $(sources) )
+
+# 所有.c文件生成的.d文件的d文件列表, 文件依赖列表
+depends := $(patsubst %.c, %.d, $(sources))
+
+
+headers:
+	@echo "${headers}"
+
+sources:
+	@echo "${sources}"
+
+objs:
+	@echo "${objs}"
+
+sourceds:
 	@echo "${depends}"
 
 echo:
-	@echo "${src}"
+	@echo "${headers}"
+	@echo "${sources}"
 	@echo "${objs}"
-	@echo "${all}"
+	@echo "${depends}"
 
 test:
-	@echo "${objs}"
 	@echo "$(filter $(mains),$(objects)) "
 	@echo "$(filter-out $(mains),$(objects)) "
 	@echo "$(dir src/foo.c a/b/hacks)"
@@ -66,7 +84,7 @@ output: $(objs)
 	$(CC) -o $(output) ${INCLUDE} ${objs}
 
 depend:
-	@$(CC) ${INCLUDE} ${CFLAGS} -MM ${src}
+	@$(CC) ${INCLUDE} ${CFLAGS} -MM ${sources}
 
 clean:
 	rm -f ${objs} ${output} ${depends}
