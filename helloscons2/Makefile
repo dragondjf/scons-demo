@@ -19,37 +19,57 @@ MYLDFLAGS=
 MYLIBS=
 MYOBJS=
 
+INCLUDE = -I"include"
+
 output = hello
 
-cs = *.c
-objs := $(patsubst %.c,%.o,$(wildcard *.c))
+src := $(wildcard *.c) $(wildcard ./include/*.c)
+dir := $(notdir $(src))
+objs := $(patsubst %.c,%.o,$(src) )
 
-all = ${cs} ${objs}
+depends := $(patsubst %.c,%.d,$(src))
 
-c:
-	@echo ${cs}
+all = ${objs}
 
-o: 
-	@echo ${objs}
+source:
+	@echo "${src}"
 
+sourced:${depends}
+	@echo "${depends}"
 
-lc:
-	@echo ${cs}
-	@echo ${objs}
-	@echo ${all}
-	@echo $@
+echo:
+	@echo "${src}"
+	@echo "${objs}"
+	@echo "${all}"
+
+test:
+	@echo "${objs}"
+	@echo "$(filter $(mains),$(objects)) "
+	@echo "$(filter-out $(mains),$(objects)) "
+	@echo "$(dir src/foo.c a/b/hacks)"
+	@echo "$(notdir src/foo.c a/b/hacks)"
+	@echo "$(suffix src/foo.c src-1.0/bar.o hacks)"
+	@echo "$(basename src/foo.c src-1.0/bar.c hacks)"
+	@echo "$(addsuffix .c,foo bar)"
+	@echo "$(addprefix src/,foo bar)"
+
+${depends}: %.d: %.c
+	@set -e; rm -f $@; \
+	$(CC) ${INCLUDE} -MM $(CPPFLAGS) $< > $@.$$$$; \
+	sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
 
 $(objs): %.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) ${INCLUDE} -c $(CFLAGS) $< -o $@ 
 
 output: $(objs)
-	$(CC) -o ${output} ${objs}
+	$(CC) -o $(output) ${INCLUDE} ${objs}
 
 depend:
-	@$(CC) $(CFLAGS) -MM *.c
+	@$(CC) ${INCLUDE} ${CFLAGS} -MM ${src}
 
 clean:
-	rm -f ${objs} ${output}
+	rm -f ${objs} ${output} ${depends}
 
 cleanOutPut:
 	rm -f ${output}
@@ -57,6 +77,5 @@ cleanOutPut:
 cleanObjs:
 	rm -f ${objs}
 
-bigoutput littleoutput:
-	@echo $@
-	@echo $(subst output, ,$@)
+cleanDepends:
+	rm -f ${depends}
