@@ -4,8 +4,8 @@
 # 
 # A simple file to specify compier and macros and flags
 # and ways to compile .c & .cpp
-#
-
+# 这个文件不能自己独立运行，必须作为子makefile文件被其他主makefile引用
+# 设置全局性的变量
 # cross compile...
 CROSS_COMPILE = 
 
@@ -44,7 +44,7 @@ export ARFLAGS
 export RM
 
 ###############################################################################
-
+# 定义与当前项目有关的目录结构变量
 INCDIRS = ../include/
 
 CFLAGS += -I$(INCDIRS)
@@ -56,8 +56,8 @@ BUILD_DIR := ../../build
 BIN_DIR := ../../bin
 
 OBJTREE	:= $(if $(BUILD_DIR),$(BUILD_DIR),$(CURDIR))
-export OBJTREE
 
+# 在build目录下生成与程序目录相同的目录结构
 obj := $(OBJTREE)/$(notdir $(CURDIR))/
 
 ifneq ($(BUILD_DIR),)
@@ -68,5 +68,5 @@ ifneq ($(BIN_DIR),)
 $(shell mkdir -p $(BIN_DIR))
 endif
 
-suffix = $(notdir $(CURDIR))
-export suffix
+# 输出OBJTREE 给其他，makefile使用
+export OBJTREE

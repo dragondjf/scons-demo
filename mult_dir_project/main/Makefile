@@ -40,6 +40,7 @@ all: $(target) $(obj).depend
 
 config:
 	@echo "$(shell uname)"
+	@echo "abspath usage: $(abspath $(CURDIR))"
 	@echo "CURDIR is $(CURDIR)"
 	@echo "OBJTREE is $(OBJTREE)"
 	@echo "obj is :$(obj)"

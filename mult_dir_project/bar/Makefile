@@ -6,8 +6,10 @@
 # You just need to change library name and source file(s)
 #
 
+# 根目录
 ROOTDIR = $(dir ${CURDIR})main
 
+# 引入全局配置文件
 include $(ROOTDIR)/config.mk
 
 # static library name
@@ -42,4 +44,5 @@ clean:
 
 .PHONY: all clean config
 
+# 引入.c .cpp -> .o 和 .depend文件生成的规则
 include $(ROOTDIR)/public.mk

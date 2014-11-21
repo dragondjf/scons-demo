@@ -1,4 +1,4 @@
-# make all .c or .cpp
+# make all .c or .cpp ->.o
 $(obj)%.o:	%.c
 	@echo "Compling: " $(addsuffix .c, $(basename $(notdir $@)))
 	$(CC) $(CFLAGS) -c $< -o $@
@@ -6,6 +6,8 @@ $(obj)%.o:	%.c
 $(obj)%.o:	%.cpp
 	@echo "Compling: " $(addsuffix .cpp, $(basename $(notdir $@)))
 	$(CXX) $(CFLAGS) -c $< -o $@
+
+# make all .c or .cpp ->.depend
 
 $(obj).depend:$(SRC_C) $(SRC_CPP)
 	@rm -f $@
