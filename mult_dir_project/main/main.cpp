@@ -5,6 +5,8 @@
 #include <foo.h>
 #include <bar.h>
 #include <crc.h>
+#include "hello.h"
+#include "world.h"
 
 static void nogood(void)
 {
@@ -13,6 +15,8 @@ static void nogood(void)
 
 int main(void)
 {
+    hello();
+    world();
     printf("hello from %s().\n", __func__);
     hello_foo();
     hello_bar();

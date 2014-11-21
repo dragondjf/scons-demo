@@ -47,7 +47,7 @@ export RM
 # 定义与当前项目有关的目录结构变量
 INCDIRS = ../include/
 
-CFLAGS += -I$(INCDIRS)
+CFLAGS +=-I$(INCDIRS)
 
 #build file directory
 BUILD_DIR := ../../build

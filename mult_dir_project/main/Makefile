@@ -12,7 +12,10 @@ include $(ROOTDIR)/config.mk
 
 ###############################################################################
 # libs
-_LIBS := ../bar/libbar.a ../foo/libfoo.a
+_LIBS := \
+../bar/libbar.a \
+../foo/libfoo.a \
+../helloworld/libhelloworld.a
 
 LIBS := $(addprefix $(obj),$(_LIBS))
 
@@ -20,7 +23,7 @@ LDFLAGS = $(addprefix $(obj),$(_LIBS))
 
 
 # main.c in this directory, can be empty
-MAIN_DIR := main/
+CFLAGS += -I../helloworld/
 
 # source file(s), including c file(s) cpp file(s)
 # you can also use $(wildcard *.c), etc.
