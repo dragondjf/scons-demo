@@ -15,10 +15,10 @@ AR = $(CROSS_COMPILE)ar
 
 ARFLAGS = cr
 RM = -rm -rf
-ifeq ($(shell uname), linux)
-MAKE = mingw32-make
-else
+ifeq ($(shell uname), Linux)
 MAKE = make
+else
+MAKE = mingw32-make
 endif
 
 CFLAGS = #-Wall
