@@ -42,7 +42,7 @@ clean:
 	@echo "Cleaning..."
 	$(RM) $(LIB) $(OBJ_C) $(OBJ_CPP) *.bak *~ $(obj).depend *.o
 
-.PHONY: all clean config
+.PHONY: all config $(LIB) clean
 
 # 引入.c .cpp -> .o 和 .depend文件生成的规则
 include $(ROOTDIR)/public.mk

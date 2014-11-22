@@ -43,6 +43,6 @@ clean:
 	@echo "Cleaning..."
 	$(RM) $(OBJ_C) $(OBJ_CPP) $(LIB) *.bak *~ *.d *.o $(obj).depend
 
-.PHONY: all clean
+.PHONY: all config  $(LIB) clean
 
 include $(ROOTDIR)/public.mk
