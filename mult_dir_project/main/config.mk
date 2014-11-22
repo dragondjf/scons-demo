@@ -15,7 +15,11 @@ AR = $(CROSS_COMPILE)ar
 
 ARFLAGS = cr
 RM = -rm -rf
+ifeq ($(shell uname), linux)
 MAKE = mingw32-make
+else
+MAKE = make
+endif
 
 CFLAGS = #-Wall
 DEBUG = y
