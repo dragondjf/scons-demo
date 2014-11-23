@@ -14,8 +14,8 @@ int main(int argc, char const *argv[])
 {
     int serv_sock;
     int clnt_sock;
-    char message[BUF_SIZE]
-    int str_len, i;
+    char message[BUF_SIZE];
+    int str_len=0, i=0;
 
     struct sockaddr_in serv_addr, clnt_addr;
     socklen_t clnt_addr_size;
@@ -49,7 +49,7 @@ int main(int argc, char const *argv[])
 
     clnt_addr_size = sizeof(clnt_addr);
 
-    for (int i = 0; i < 5; ++i)
+    while(1)
     {
         clnt_sock = accept(serv_sock, (struct sockaddr*) &clnt_addr, &clnt_addr_size);
 
@@ -59,7 +59,7 @@ int main(int argc, char const *argv[])
         }
         else
         {
-            printf("connect client %d\n", i+1 );
+            printf("connect client %d\n", ++i );
         }
         while((str_len = read(clnt_sock, message, BUF_SIZE)) != 0){
             write(clnt_sock, message, str_len);
