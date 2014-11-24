@@ -14,7 +14,15 @@ include $(ROOTDIR)/config.mk
 CFLAGS += -D_A_
 
 # static library name
-LIB = $(obj)libfoo.a
+Target = foo
+
+ifeq ($(shell uname), Linux)
+LIB = $(obj)lib$(Target).a
+ShareLib = $(BIN_DIR)/lib$(Target).so
+else
+LIB = $(obj)lib$(Target).a
+ShareLib = $(BIN_DIR)/lib$(Target).dll
+endif
 
 # source file(s), including c file(s) cpp file(s)
 # you can also use $(wildcard *.c), etc.
@@ -25,7 +33,7 @@ SRC_CPP := $(wildcard *.cpp)
 OBJ_C   := $(addprefix $(obj),$(patsubst %.c,%.o,$(SRC_C)))
 OBJ_CPP := $(addprefix $(obj),$(patsubst %.cpp,%.o,$(SRC_CPP)))
 
-all: $(obj).depend $(LIB)
+all: $(obj).depend $(LIB) $(ShareLib)
 
 config:
 	@echo "CURDIR is $(CURDIR)"
@@ -41,7 +49,7 @@ $(LIB): $(OBJ_C) $(OBJ_CPP)
 
 clean:
 	@echo "Cleaning..."
-	$(RM) $(OBJ_C) $(OBJ_CPP) $(LIB) *.bak *~ *.d *.o $(obj).depend
+	$(RM) $(OBJ_C) $(OBJ_CPP) $(LIB) $(ShareLib) *.bak *~ *.d *.o $(obj).depend
 
 .PHONY: all config  $(LIB) clean
 

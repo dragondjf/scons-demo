@@ -13,7 +13,17 @@ ROOTDIR = $(dir ${CURDIR})main
 include $(ROOTDIR)/config.mk
 
 # static library name
-LIB = $(obj)libhelloworld.a
+
+Target = helloworld
+
+ifeq ($(shell uname), Linux)
+LIB = $(obj)lib$(Target).a
+ShareLib = $(BIN_DIR)/lib$(Target).so
+else
+LIB = $(obj)lib$(Target).a
+ShareLib = $(BIN_DIR)/lib$(Target).dll
+endif
+
 CFLAGS += -I../helloworld/
 # source file(s), including c file(s) cpp file(s)
 # you can also use $(wildcard *.c) or *.c, etc.
@@ -24,7 +34,7 @@ SRC_CPP := $(wildcard *.cpp)
 OBJ_C   := $(addprefix $(obj),$(patsubst %.c,%.o,$(SRC_C)))
 OBJ_CPP := $(addprefix $(obj),$(patsubst %.cpp,%.o,$(SRC_CPP)))
 
-all: $(LIB) $(obj).depend
+all: $(LIB) $(obj).depend $(ShareLib)
 
 config:
 	@echo "CURDIR is $(CURDIR)"

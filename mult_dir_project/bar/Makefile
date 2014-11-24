@@ -13,7 +13,16 @@ ROOTDIR = $(dir ${CURDIR})main
 include $(ROOTDIR)/config.mk
 
 # static library name
-LIB = $(obj)libbar.a
+
+Target = bar
+
+ifeq ($(shell uname), Linux)
+LIB = $(obj)lib$(Target).a
+ShareLib = $(BIN_DIR)/lib$(Target).so
+else
+LIB = $(obj)lib$(Target).a
+ShareLib = $(BIN_DIR)/lib$(Target).dll
+endif
 
 # source file(s), including c file(s) cpp file(s)
 # you can also use $(wildcard *.c) or *.c, etc.
@@ -24,7 +33,7 @@ SRC_CPP := $(wildcard *.cpp)
 OBJ_C   := $(addprefix $(obj),$(patsubst %.c,%.o,$(SRC_C)))
 OBJ_CPP := $(addprefix $(obj),$(patsubst %.cpp,%.o,$(SRC_CPP)))
 
-all: $(LIB) $(obj).depend
+all: $(LIB) $(obj).depend $(ShareLib)
 
 config:
 	@echo "CURDIR is $(CURDIR)"
@@ -40,7 +49,7 @@ $(LIB):  $(OBJ_C) $(OBJ_CPP)
 
 clean:
 	@echo "Cleaning..."
-	$(RM) $(LIB) $(OBJ_C) $(OBJ_CPP) *.bak *~ $(obj).depend *.o
+	$(RM) $(LIB) $(OBJ_C) $(OBJ_CPP) $(ShareLib) *.bak *~ $(obj).depend *.o
 
 .PHONY: all config $(LIB) clean
 

@@ -21,6 +21,12 @@ LIBS := $(addprefix $(obj),$(_LIBS))
 
 LDFLAGS = $(addprefix $(obj),$(_LIBS))
 
+Sharedlibs := \
+-lbar\
+-lfoo\
+-lhelloworld\
+
+SharedLibaryPath = $(abspath $(BIN_DIR))
 
 # main.c in this directory, can be empty
 CFLAGS += -I../helloworld/
@@ -36,10 +42,14 @@ OBJ_CPP := $(addprefix $(obj),$(patsubst %.cpp,%.o,$(SRC_CPP)))
 
 # executable file
 target = $(BIN_DIR)/a
+shared_target = $(BIN_DIR)/share_a
 
 ###############################################################################
-
+#create static Executable program
 all: $(target) $(obj).depend
+
+#create share Executable program
+share: $(shared_target)
 
 config:
 	@echo "$(shell uname)"
@@ -53,9 +63,15 @@ config:
 
 $(target): $(LIBS) exe
 
+$(shared_target): $(LIBS) sharedexe
+
 exe: $(OBJ_CPP) $(OBJ_C)
 	@echo "Generating executable file..." $(notdir $(target))
 	$(CXX) $(CFLAGS) $^ -o $(target) $(LDFLAGS)
+
+sharedexe: $(OBJ_CPP) $(OBJ_C)
+	@echo "Generating executable file..." $(notdir $(shared_target))
+	$(CXX) $(CFLAGS) $^ -o $(shared_target) -L$(BIN_DIR) $(Sharedlibs) -Wl,-rpath,.
 
 $(LIBS):
 	@echo "***************************************"
@@ -64,17 +80,17 @@ $(LIBS):
 
 clean:
 	@echo "cleaning..."
-	@$(RM) $(target)
+	@$(RM) $(target) $(shared_target)
 	@find $(OBJTREE) $(BIN_DIR) -type f \
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
-		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' \) -print \
+		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so' \) -print \
 		| xargs rm -f
 distclean:
 	@echo "distcleaning..."
-	@$(RM) $(target)
+	@$(RM) $(target) $(shared_target)
 	@find $(OBJTREE) $(BIN_DIR) -type f \
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
-		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' \) -print \
+		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so'\) -print \
 		| xargs rm -f
 	@$(RM) $(obj) $(BUILD_DIR)
 	@$(RM) $(BIN_DIR)
