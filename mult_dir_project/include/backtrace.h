@@ -11,6 +11,7 @@
 #ifndef _BACKTRACE_H
 #define _BACKTRACE_H
 
+#include <conf.h>
 /* Even complicated programs rather seldom have a nesting 
  * level of more than, say, 50 and with 200 possible entries
  * probably all programs should be covered. -- from glibc manual
@@ -22,9 +23,9 @@
 extern "C" {
 #endif
 
-void print_trace(int sig);
-void print_trace_fd(int sig);
-void print_trace_file(int sig);
+D_API void print_trace(int sig);
+D_API void print_trace_fd(int sig);
+D_API void print_trace_file(int sig);
 
 #ifdef __cplusplus
 }

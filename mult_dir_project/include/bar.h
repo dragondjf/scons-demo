@@ -9,13 +9,14 @@
  */
 #ifndef BAR_H_
 #define BAR_H_
+#include <conf.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void bar(int i);
-int hello_bar(void);
+D_API void bar(int i);
+D_API int hello_bar(void);
 
 #ifdef __cplusplus
 }

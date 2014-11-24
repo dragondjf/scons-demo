@@ -11,12 +11,14 @@
 #ifndef FOO_H_
 #define FOO_H_
 
+#include <conf.h>
+
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void foo(int i);
-int hello_foo(void);
+D_API void foo(int i);
+D_API int hello_foo(void);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,4 @@
+#define SHARE_LIB
 #include "crc.h"
 
 /////////////////////////////// crc16

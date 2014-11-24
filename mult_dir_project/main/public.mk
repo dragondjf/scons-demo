@@ -9,7 +9,7 @@ $(obj)%.o:	%.cpp
 
 $(ShareLib):  $(SRC_C) $(SRC_CPP)
 	@echo "Generating share library: " $(notdir $@)
-	$(CXX) -fPIC -shared ${CFLAGS} $^ -o $@ 
+	$(CXX)  -shared -Wl,--out-implib ${CFLAGS} $^ -o $@
 
 # make all .c or .cpp ->.depend
 
