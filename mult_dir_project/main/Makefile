@@ -26,8 +26,13 @@ LIBS := $(addprefix $(obj),$(_LIBS))
 
 LDFLAGS = $(addprefix $(obj),$(_LIBS))
 
+ifeq ($(shell uname), Linux)
 SharedLibPath_LDFLAGS = $(addprefix -L,$(LIBs_DIR))
 Sharedlibs := $(addprefix -l, $(targets))
+else
+SharedLibPath_LDFLAGS = $(addprefix -L,$(SHARED_DIR))
+Sharedlibs := $(addprefix -l, $(targets))
+endif
 
 SharedLibaryPath = $(abspath $(BIN_DIR))
 
