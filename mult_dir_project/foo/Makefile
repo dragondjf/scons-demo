@@ -18,7 +18,7 @@ Target = foo
 ifeq ($(shell uname), Linux)
 StaticLIB = $(obj)lib$(Target).a
 LIB = $(obj)lib$(Target).a
-ShareLib = $(BIN_DIR)/lib$(Target).so
+ShareLib = $(SHARED_DIR)/lib$(Target).so
 ShareFlags = -fPIC
 else
 StaticLIB = $(obj)lib$(Target).a
