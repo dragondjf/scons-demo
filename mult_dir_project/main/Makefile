@@ -30,7 +30,7 @@ ifeq ($(shell uname), Linux)
 SharedLibPath_LDFLAGS = $(addprefix -L,$(SHARED_DIR))
 Sharedlibs := $(addprefix -l, $(targets))
 else
-SharedLibPath_LDFLAGS = $(addprefix -L,$(LIBS_DIR))
+SharedLibPath_LDFLAGS = $(addprefix -L,$(LIBs_DIR))
 Sharedlibs := $(addprefix -l, $(targets))
 endif
 
