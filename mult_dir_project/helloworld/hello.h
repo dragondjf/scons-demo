@@ -1,7 +1,7 @@
 #ifndef HELLO_H
 #define HELLO_H
 
-#include <conf.h>
+#include "conf.h"
 
 #ifdef __cplusplus
 extern "C" {

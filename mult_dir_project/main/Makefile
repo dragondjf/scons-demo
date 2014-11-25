@@ -26,7 +26,7 @@ LIBS := $(addprefix $(obj),$(_LIBS))
 
 LDFLAGS = $(addprefix $(obj),$(_LIBS))
 
-SharedLibPath_LDFLAGS = $(addprefix -L,$(dir $(LDFLAGS)))
+SharedLibPath_LDFLAGS = $(addprefix -L,$(LIBs_DIR))
 Sharedlibs := $(addprefix -l, $(targets))
 
 SharedLibaryPath = $(abspath $(BIN_DIR))
@@ -44,14 +44,17 @@ OBJ_C   := $(addprefix $(obj),$(patsubst %.c,%.o,$(SRC_C)))
 OBJ_CPP := $(addprefix $(obj),$(patsubst %.cpp,%.o,$(SRC_CPP)))
 
 # executable file
-target = $(BIN_DIR)/a
-shared_target = $(BIN_DIR)/share_a
+target = $(STATIC_DIR)/a
+shared_target = $(SHARED_DIR)/share_a
 
 ###############################################################################
-#create static Executable program
-all: $(target) $(obj).depend
+#create static and shared Executable program
+all: static $(obj).depend share
 
-#create share Executable program
+#create static Executable program
+static: $(target)
+
+#create shared Executable program
 share: $(shared_target)
 
 config:
@@ -70,11 +73,11 @@ $(target): $(LIBS) exe
 $(shared_target): $(LIBS) sharedexe
 
 exe: $(OBJ_CPP) $(OBJ_C)
-	@echo "Generating executable file..." $(notdir $(target))
+	@echo "Generating static executable file..." $(notdir $(target))
 	$(CXX) $(CFLAGS) $^ -o $(target) $(LDFLAGS)
 
 sharedexe: $(OBJ_CPP) $(OBJ_C)
-	@echo "Generating executable file..." $(notdir $(shared_target))
+	@echo "Generating shared executable file..." $(notdir $(shared_target))
 	$(CXX) $^ -o $(shared_target) $(SharedLibPath_LDFLAGS) $(Sharedlibs) -Wl,-rpath,.
 
 $(LIBS):
@@ -85,14 +88,14 @@ $(LIBS):
 clean:
 	@echo "cleaning..."
 	@$(RM) $(target) $(shared_target)
-	@find $(OBJTREE) $(BIN_DIR) -type f \
+	@find $(OBJTREE) $(BIN_DIR) $(LIBs_DIR) -type f \
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
 		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so' -o -name '*.dll' \) -print \
 		| xargs rm -f
 distclean:
 	@echo "distcleaning..."
 	@$(RM) $(target) $(shared_target)
-	@find $(OBJTREE) $(BIN_DIR) -type f \
+	@find $(OBJTREE) $(BIN_DIR) $(LIBs_DIR) -type f \
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
 		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so' -o -name '*.dll'\) -print \
 		| xargs rm -f

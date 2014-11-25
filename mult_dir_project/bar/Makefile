@@ -17,11 +17,15 @@ include $(ROOTDIR)/config.mk
 Target = bar
 
 ifeq ($(shell uname), Linux)
+StaticLIB = $(obj)lib$(Target).a
 LIB = $(obj)lib$(Target).a
 ShareLib = $(BIN_DIR)/lib$(Target).so
+ShareFlags = 
 else
-LIB = $(obj)lib$(Target).a
-ShareLib = $(BIN_DIR)/lib$(Target).dll
+StaticLIB = $(obj)lib$(Target).a
+LIB = $(LIBs_DIR)/lib$(Target).a
+ShareLib = $(SHARED_DIR)/lib$(Target).dll
+ShareFlags = -DSHARE_EXE -DDLLEXPORT -s -shared -Wl,--subsystem,windows,--out-implib,$(LIB)
 endif
 
 # source file(s), including c file(s) cpp file(s)
@@ -33,7 +37,9 @@ SRC_CPP := $(wildcard *.cpp)
 OBJ_C   := $(addprefix $(obj),$(patsubst %.c,%.o,$(SRC_C)))
 OBJ_CPP := $(addprefix $(obj),$(patsubst %.cpp,%.o,$(SRC_CPP)))
 
-all: $(LIB) $(obj).depend $(ShareLib)
+all: $(StaticLIB) $(obj).depend share
+
+share: $(ShareLib)
 
 config:
 	@echo "CURDIR is $(CURDIR)"
@@ -43,17 +49,17 @@ config:
 	@echo "$(ROOTDIR)/config.mk"
 	@echo "$(ROOTDIR)/public.mk"
 
-$(LIB):  $(OBJ_C) $(OBJ_CPP)
+$(StaticLIB):  $(OBJ_C) $(OBJ_CPP)
 	@echo "Generating static library: " $(notdir $@)
 	$(AR) $(ARFLAGS) $@ $^
 
 $(ShareLib):  $(SRC_C) $(SRC_CPP)
 	@echo "Generating share library: " $(notdir $@)
-	$(CXX)  -shared -Wl,--out-implib, $(LIB) ${CFLAGS} $^ -o $@
+	$(CXX)  -shared $(ShareFlags) $(CFLAGS) $^ -o $@
 
 clean:
 	@echo "Cleaning..."
-	$(RM) $(LIB) $(OBJ_C) $(OBJ_CPP) $(LIB) $(ShareLib) *.bak *~ $(obj).depend *.o
+	$(RM) $(StaticLIB) $(LIB) $(OBJ_C) $(OBJ_CPP) $(LIB) $(ShareLib) *.bak *~ $(obj).depend *.o
 
 .PHONY: all config $(LIB) clean
 

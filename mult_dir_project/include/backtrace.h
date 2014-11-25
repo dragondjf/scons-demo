@@ -11,7 +11,7 @@
 #ifndef _BACKTRACE_H
 #define _BACKTRACE_H
 
-#include <conf.h>
+#include "conf.h"
 /* Even complicated programs rather seldom have a nesting 
  * level of more than, say, 50 and with 200 possible entries
  * probably all programs should be covered. -- from glibc manual

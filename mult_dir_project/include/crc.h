@@ -1,7 +1,7 @@
 #ifndef CRC_H
 #define CRC_H
 
-#include <conf.h>
+#include "conf.h"
 
 typedef unsigned long u32;
 typedef unsigned char u8;

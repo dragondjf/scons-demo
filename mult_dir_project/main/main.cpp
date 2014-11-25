@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <foo.h>
-#include <bar.h>
-#include <crc.h>
+#include "foo.h"
+#include "bar.h"
+#include "crc.h"
 #include "hello.h"
 #include "world.h"
 

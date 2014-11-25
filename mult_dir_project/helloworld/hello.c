@@ -1,7 +1,5 @@
-#define SHARE_LIB
-
-#include <hello.h>
 #include <stdio.h>
+#include "hello.h"
 
 void hello()
 {

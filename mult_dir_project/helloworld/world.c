@@ -1,7 +1,5 @@
-#define SHARE_LIB
-
-#include <world.h>
 #include <stdio.h>
+#include "world.h"
 
 void world()
 {

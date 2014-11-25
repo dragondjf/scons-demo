@@ -59,6 +59,13 @@ BUILD_DIR := ../../build
 # binary file directory
 BIN_DIR := ../../bin
 
+#static file directory
+STATIC_DIR := ../../bin/static
+
+# share libs file directory
+LIBs_DIR := ../../bin/shared/libs
+SHARED_DIR := ../../bin/shared
+
 OBJTREE	:= $(if $(BUILD_DIR),$(BUILD_DIR),$(CURDIR))
 
 # 在build目录下生成与程序目录相同的目录结构
@@ -70,6 +77,18 @@ endif
 
 ifneq ($(BIN_DIR),)
 $(shell mkdir -p $(BIN_DIR))
+endif
+
+ifneq ($(STATIC_DIR),)
+$(shell mkdir -p $(STATIC_DIR))
+endif
+
+ifneq ($(LIBs_DIR),)
+$(shell mkdir -p $(LIBs_DIR))
+endif
+
+ifneq ($(SHARED_DIR),)
+$(shell mkdir -p $(SHARED_DIR))
 endif
 
 # 输出OBJTREE 给其他，makefile使用

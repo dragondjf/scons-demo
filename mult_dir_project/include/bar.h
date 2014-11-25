@@ -9,7 +9,8 @@
  */
 #ifndef BAR_H_
 #define BAR_H_
-#include <conf.h>
+
+#include "conf.h"
 
 #ifdef __cplusplus
 extern "C" {
