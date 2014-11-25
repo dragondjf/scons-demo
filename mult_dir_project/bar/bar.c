@@ -1,7 +1,6 @@
 #define SHARE_LIB
 
 #include <stdio.h>
-#include <foo.h>
 #include <bar.h>
 
 
@@ -13,6 +12,5 @@ void bar(int i)
 int hello_bar(void)
 {
     printf("in func: %s()\n", __func__);
-    foo(200);
     return 0;
 }

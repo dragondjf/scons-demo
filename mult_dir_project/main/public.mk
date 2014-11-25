@@ -7,10 +7,6 @@ $(obj)%.o:	%.cpp
 	@echo "Compling: " $(addsuffix .cpp, $(basename $(notdir $@)))
 	$(CXX) $(CFLAGS) -c $< -o $@
 
-$(ShareLib):  $(SRC_C) $(SRC_CPP)
-	@echo "Generating share library: " $(notdir $@)
-	$(CXX)  -shared -Wl,--out-implib ${CFLAGS} $^ -o $@
-
 # make all .c or .cpp ->.depend
 
 $(obj).depend:$(SRC_C) $(SRC_CPP)

@@ -12,19 +12,22 @@ include $(ROOTDIR)/config.mk
 
 ###############################################################################
 # libs
+target_bar = bar
+target_foo = foo
+target_helloworld = helloworld
+targets := $(target_bar) $(target_foo) $(target_helloworld)
+
 _LIBS := \
-../bar/libbar.a \
-../foo/libfoo.a \
-../helloworld/libhelloworld.a
+../$(target_bar)/lib$(target_bar).a \
+../$(target_foo)/lib$(target_foo).a \
+../$(target_helloworld)/lib$(target_helloworld).a
 
 LIBS := $(addprefix $(obj),$(_LIBS))
 
 LDFLAGS = $(addprefix $(obj),$(_LIBS))
 
-Sharedlibs := \
--lbar\
--lfoo\
--lhelloworld\
+SharedLibPath_LDFLAGS = $(addprefix -L,$(dir $(LDFLAGS)))
+Sharedlibs := $(addprefix -l, $(targets))
 
 SharedLibaryPath = $(abspath $(BIN_DIR))
 
@@ -60,6 +63,7 @@ config:
 	@echo "LIBS is: $(LIBS)"
 	@echo "CFLAGS is: $(CFLAGS)"
 	@echo "LDFLAGS is: $(LDFLAGS)"
+	@echo "SharedLibPath_LDFLAGS is : $(SharedLibPath_LDFLAGS)"
 
 $(target): $(LIBS) exe
 
@@ -71,7 +75,7 @@ exe: $(OBJ_CPP) $(OBJ_C)
 
 sharedexe: $(OBJ_CPP) $(OBJ_C)
 	@echo "Generating executable file..." $(notdir $(shared_target))
-	$(CXX) $(CFLAGS) $^ -o $(shared_target) -L$(BIN_DIR) $(Sharedlibs) -Wl,-rpath,.
+	$(CXX) $^ -o $(shared_target) $(SharedLibPath_LDFLAGS) $(Sharedlibs) -Wl,-rpath,.
 
 $(LIBS):
 	@echo "***************************************"
@@ -83,14 +87,14 @@ clean:
 	@$(RM) $(target) $(shared_target)
 	@find $(OBJTREE) $(BIN_DIR) -type f \
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
-		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so' \) -print \
+		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so' -o -name '*.dll' \) -print \
 		| xargs rm -f
 distclean:
 	@echo "distcleaning..."
 	@$(RM) $(target) $(shared_target)
 	@find $(OBJTREE) $(BIN_DIR) -type f \
 		\( -name 'core' -o -name '*.bak' -o -name '*~' \
-		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so'\) -print \
+		-o -name '*.o'	-o -name '*.a' -o -name '*.exe'	-o -name '.depend' -o -name '*.so' -o -name '*.dll'\) -print \
 		| xargs rm -f
 	@$(RM) $(obj) $(BUILD_DIR)
 	@$(RM) $(BIN_DIR)
