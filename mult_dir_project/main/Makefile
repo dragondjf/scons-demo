@@ -12,6 +12,9 @@ include $(ROOTDIR)/config.mk
 
 ###############################################################################
 # libs
+
+ExecutableName = main
+
 target_bar = bar
 target_foo = foo
 target_helloworld = helloworld
@@ -49,8 +52,8 @@ OBJ_C   := $(addprefix $(obj),$(patsubst %.c,%.o,$(SRC_C)))
 OBJ_CPP := $(addprefix $(obj),$(patsubst %.cpp,%.o,$(SRC_CPP)))
 
 # executable file
-target = $(STATIC_DIR)/a
-shared_target = $(SHARED_DIR)/share_a
+target = $(STATIC_DIR)/$(ExecutableName)
+shared_target = $(SHARED_DIR)/$(ExecutableName)
 
 ###############################################################################
 #create static and shared Executable program
