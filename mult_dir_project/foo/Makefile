@@ -11,7 +11,6 @@ ROOTDIR = $(dir ${CURDIR})main
 include $(ROOTDIR)/config.mk
 
 # here you can set your own flags
-CFLAGS += -D_A_
 
 # static library name
 Target = foo
@@ -20,7 +19,7 @@ ifeq ($(shell uname), Linux)
 StaticLIB = $(obj)lib$(Target).a
 LIB = $(obj)lib$(Target).a
 ShareLib = $(BIN_DIR)/lib$(Target).so
-ShareFlags = 
+ShareFlags = -fPIC
 else
 StaticLIB = $(obj)lib$(Target).a
 LIB = $(LIBs_DIR)/lib$(Target).a
